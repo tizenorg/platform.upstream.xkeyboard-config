@@ -6,6 +6,7 @@ Summary:        The X Keyboard Extension
 Url:            http://www.freedesktop.org/Software/XKeyboardConfig
 Group:          System/X11/Utilities
 Source:         http://xorg.freedesktop.org/releases/individual/data/%{name}-%{version}.tar.bz2
+Source1001: 	xkeyboard-config.manifest
 BuildRequires:  fdupes
 BuildRequires:  intltool
 BuildRequires:  perl-XML-Parser
@@ -30,6 +31,7 @@ make keyboards more accessible to people with physical impairments.
 
 %prep
 %setup -q
+cp %{SOURCE1001} .
 
 %build
 %configure --with-xkb-rules-symlink=xfree86,xorg \
@@ -51,6 +53,7 @@ ln -snf /var/lib/xkb/compiled/ %{buildroot}/usr/share/X11/xkb/compiled
 %fdupes -s %{buildroot}/usr/share/X11/xkb
 
 %files -f %{name}.lang
+%manifest %{name}.manifest
 %defattr(-,root,root)
 %doc AUTHORS COPYING README docs/HOWTO.* docs/README.*
 %dir %{_localstatedir}/lib/xkb
