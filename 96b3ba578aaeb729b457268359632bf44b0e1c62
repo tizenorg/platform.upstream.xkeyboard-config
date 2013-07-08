@@ -1,0 +1,8 @@
+Change-Id: I96b3ba578aaeb729b457268359632bf44b0e1c62
+Code-Review+2: Ryan Ware <ware@linux.intel.com>
+Verified+1: Ryan Ware <ware@linux.intel.com>
+Submitted-by: Ryan Ware <ware@linux.intel.com>
+Submitted-at: Mon, 08 Jul 2013 09:38:40 -0700
+Reviewed-on: https://review.tizen.org/gerrit/4980
+Project: platform/upstream/xkeyboard-config
+Branch: refs/heads/tizen
