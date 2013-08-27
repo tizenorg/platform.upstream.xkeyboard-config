@@ -1,0 +1,14 @@
+<manifest>
+        <define>
+                <domain name="xorg" policy="shared"/>
+				<provide>
+					<label name="xorg::screencapture"/>
+				</provide>
+				<request>
+					<smack request="dlogutil" type="rx"/>
+				</request>
+        </define>
+	<request>
+		<domain name="xorg"/>
+	</request>
+</manifest>
