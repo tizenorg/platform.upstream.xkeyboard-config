@@ -1,0 +1,8 @@
+Code-Review+1: Chengwei Yang <chengwei.yang@intel.com>
+Code-Review+2: Ryan Ware <ware@linux.intel.com>
+Verified+1: Ryan Ware <ware@linux.intel.com>
+Submitted-by: Ryan Ware <ware@linux.intel.com>
+Submitted-at: Sun, 29 Sep 2013 17:20:22 -0700
+Reviewed-on: https://review.tizen.org/gerrit/10135
+Project: platform/upstream/xkeyboard-config
+Branch: refs/heads/tizen
