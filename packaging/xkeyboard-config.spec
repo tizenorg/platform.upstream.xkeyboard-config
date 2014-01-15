@@ -1,3 +1,5 @@
+%bcond_with x
+
 Name:           xkeyboard-config
 Version:        2.7
 Release:        0
@@ -11,9 +13,11 @@ BuildRequires:  fdupes
 BuildRequires:  intltool
 BuildRequires:  perl-XML-Parser
 BuildRequires:  pkg-config
+%if %{with x}
 BuildRequires:  xkbcomp
-BuildRequires:  pkgconfig(xorg-macros) >= 1.12
 Requires:       xkbcomp
+%endif
+BuildRequires:  pkgconfig(xorg-macros) >= 1.12
 Provides:       XFree86:/etc/X11/xkb/symbols/us
 Provides:       xorg-x11:/etc/X11/xkb/symbols/us
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
