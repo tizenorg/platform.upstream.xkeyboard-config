@@ -50,6 +50,7 @@ make
 %make_install
 mkdir -p %{buildroot}%{_localstatedir}/lib/xkb
 ln -snf /usr/bin/xkbcomp %{buildroot}/usr/share/X11/xkb/xkbcomp
+
 # Bug 335553
 mkdir -p %{buildroot}%{_localstatedir}/lib/xkb/compiled/
 ln -snf /var/lib/xkb/compiled/ %{buildroot}/usr/share/X11/xkb/compiled
