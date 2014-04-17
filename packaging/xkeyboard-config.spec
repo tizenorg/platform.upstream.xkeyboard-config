@@ -1,7 +1,7 @@
 %bcond_with x
 
 Name:           xkeyboard-config
-Version:        2.7
+Version:        2.11
 Release:        0
 License:        GPL-2.0+ ; LGPL-2.1+ ; MIT
 Summary:        The X Keyboard Extension
@@ -38,7 +38,7 @@ make keyboards more accessible to people with physical impairments.
 cp %{SOURCE1001} .
 
 %build
-%configure --with-xkb-rules-symlink=xfree86,xorg \
+%autogen --with-xkb-rules-symlink=xfree86,xorg \
             --with-xkb-base=/usr/share/X11/xkb \
             --enable-compat_rules \
             --disable-runtime-deps \
