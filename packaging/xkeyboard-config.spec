@@ -1,14 +1,14 @@
 %bcond_with x
 
 Name:           xkeyboard-config
-Version:        2.11
+Version:        2.12
 Release:        0
-License:        GPL-2.0+ ; LGPL-2.1+ ; MIT
+License:        GPL-2.0+ and LGPL-2.1+ and MIT
 Summary:        The X Keyboard Extension
 Url:            http://www.freedesktop.org/Software/XKeyboardConfig
-Group:          System/X11/Utilities
+Group:          System/Utilities
 Source:         http://xorg.freedesktop.org/releases/individual/data/%{name}-%{version}.tar.bz2
-Source1001: 	xkeyboard-config.manifest
+Source1001:     xkeyboard-config.manifest
 BuildRequires:  fdupes
 BuildRequires:  intltool
 BuildRequires:  perl-XML-Parser
@@ -44,25 +44,23 @@ cp %{SOURCE1001} .
             --disable-runtime-deps \
             --disable-xkbcomp-symlink
 rm -f */*.dir
-make
+%__make
 
 %install
 %make_install
 mkdir -p %{buildroot}%{_localstatedir}/lib/xkb
-ln -snf /usr/bin/xkbcomp %{buildroot}/usr/share/X11/xkb/xkbcomp
+ln -snf %{_bindir}/xkbcomp %{buildroot}%{_datadir}/X11/xkb/xkbcomp
 # Bug 335553
 mkdir -p %{buildroot}%{_localstatedir}/lib/xkb/compiled/
-ln -snf /var/lib/xkb/compiled/ %{buildroot}/usr/share/X11/xkb/compiled
+ln -snf /var/lib/xkb/compiled/ %{buildroot}%{_datadir}/X11/xkb/compiled
 %find_lang %{name}
-%fdupes -s %{buildroot}/usr/share/X11/xkb
+%fdupes -s %{buildroot}%{_datadir}/X11/xkb
 
 %files -f %{name}.lang
 %manifest %{name}.manifest
 %defattr(-,root,root)
-%doc AUTHORS COPYING README docs/HOWTO.* docs/README.*
-%dir %{_localstatedir}/lib/xkb
+%doc AUTHORS README docs/HOWTO.* docs/README.*
+%license COPYING
 %dir %{_localstatedir}/lib/xkb/compiled
-/usr/share/X11/xkb/
+%{_datadir}/X11/xkb/
 %{_datadir}/pkgconfig/*.pc
-
-%changelog
