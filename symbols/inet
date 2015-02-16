@@ -88,7 +88,7 @@ xkb_symbols "evdev" {
     key <VOL->   {      [ XF86AudioLowerVolume  ]       };
     key <VOL+>   {      [ XF86AudioRaiseVolume  ]       };
     key <POWR>   {      [ XF86PowerOff          ]       };
-    key <STOP>   {      [ Cancel                ]       };
+    key <STOP>   {      [ XF86AudioStop, XF86Eject ]    };
     key <AGAI>   {      [ Redo                  ]       };
     key <PROP>   {      [ SunProps              ]       };
     key <UNDO>   {      [ Undo                  ]       };
@@ -149,7 +149,7 @@ xkb_symbols "evdev" {
     key <I171>   {      [ XF86AudioNext         ]       };
     key <I172>   {      [ XF86AudioPlay, XF86AudioPause ] };
     key <I173>   {      [ XF86AudioPrev         ]       };
-    key <I174>   {      [ XF86AudioStop, XF86Eject ]    };
+    key <I174>   {      [ Cancel                ]       };
     key <I175>   {      [ XF86AudioRecord       ]       };
     key <I176>   {      [ XF86AudioRewind       ]       };
     key <I177>   {      [ XF86Phone             ]       };
