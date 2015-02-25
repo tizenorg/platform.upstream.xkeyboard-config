@@ -122,13 +122,13 @@ xkb_symbols "evdev" {
 //  key <I120>   {      [ ]       }; // KEY_MACRO
     key <I126>   {      [ plusminus             ]       };
     key <I128>   {      [ XF86LaunchA           ]       };
-    key <I147>   {      [ XF86MenuKB            ]       };
+    key <I147>   {      [ XF86Send             ]       };
     key <I148>   {      [ XF86Calculator        ]       };
 //  key <I149>   {      [ ]       }; // KEY_SETUP
     key <I150>   {      [ XF86Sleep             ]       };
     key <I151>   {      [ XF86WakeUp            ]       };
     key <I152>   {      [ XF86Explorer          ]       };
-    key <I153>   {      [ XF86Send              ]       };
+    key <I153>   {      [ XF86MenuKB              ]       };
 //  key <I154>   {      [ ]       }; // KEY_DELETEFILE
     key <I155>   {      [ XF86Xfer              ]       };
     key <I156>   {      [ XF86Launch1           ]       };
