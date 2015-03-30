@@ -14,9 +14,17 @@ AC_PROG_SED
 
 AC_SUBST(VERSION)
 
+AC_ARG_WITH( tizen_profile,
+             [AS_HELP_STRING([--with-tizen-profile=PROFILE],[Tizen Profile])],
+             tizen_profile="$withval",
+             tizen_profile="common" )
+
+AC_CHECK_FILE(/usr/share/X11/xkb/tizen_key_layout.txt, [key_layout_exist=yes], [key_layout_exist=no])
+AM_CONDITIONAL(KEY_LAYOUT_EXIST, [test "x$key_layout_exist" = xyes])
+
 AC_ARG_WITH( xkb_base,
              [AS_HELP_STRING([--with-xkb-base=DIR],[XKB base path @<:@DATADIR/X11/xkb@:>@])],
-             xkb_base="$withval", 
+             xkb_base="$withval",
              xkb_base="${datadir}/X11/xkb" )
 
 AC_ARG_WITH( xkb_rules_symlink,
@@ -74,6 +82,8 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package])
 
 ALL_LINGUAS="af az bg ca crh cs da de el en_GB eo es fi fr gl hr hu id it ja ka ko ky lt nb nl pl pt_BR ro ru rw sk sl sq sr sv tr uk vi zh_CN zh_TW"
 
+AC_SUBST(tizen_profile)
+AM_CONDITIONAL(TIZEN_COMMON_PROFILE, test "${tizen_profile}" = "common")
 AC_SUBST(xkb_base)
 AC_SUBST(xkb_rules_symlink)
 
