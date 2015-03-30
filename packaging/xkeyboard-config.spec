@@ -1,7 +1,7 @@
 %bcond_with x
 
 Name:           xkeyboard-config
-Version:        2.12
+Version:        2.13
 Release:        0
 License:        GPL-2.0+ and LGPL-2.1+ and MIT
 Summary:        The X Keyboard Extension
@@ -24,6 +24,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 Requires(pre):  /usr/bin/ln
 Requires(pre):  /usr/bin/rm
+%if "%{?profile}" == "common"
+%else
+BuildRequires:  e-tizen-data
+%endif
 
 %description
 The X Keyboard Extension essentially replaces the core protocol
@@ -36,13 +40,27 @@ make keyboards more accessible to people with physical impairments.
 %prep
 %setup -q
 cp %{SOURCE1001} .
+export TIZEN_PROFILE="%{?profile}"
+%if "%{?profile}" == "common"
+%else
+
+%if %{with x}
+export TIZEN_WINDOW_SYSTEM="x11"
+%else
+export TIZEN_WINDOW_SYSTEM="wayland"
+%endif
+
+./make_keycodes.sh
+./make_symbols.sh
+%endif
 
 %build
 %autogen --with-xkb-rules-symlink=xfree86,xorg \
             --with-xkb-base=/usr/share/X11/xkb \
             --enable-compat_rules \
             --disable-runtime-deps \
-            --disable-xkbcomp-symlink
+            --disable-xkbcomp-symlink \
+            --with-tizen-profile="%{?profile}"
 rm -f */*.dir
 %__make
 
@@ -55,6 +73,13 @@ mkdir -p %{buildroot}%{_localstatedir}/lib/xkb/compiled/
 ln -snf /var/lib/xkb/compiled/ %{buildroot}%{_datadir}/X11/xkb/compiled
 %find_lang %{name}
 %fdupes -s %{buildroot}%{_datadir}/X11/xkb
+%if "%{?profile}" == "common"
+%else
+cp -af %{buildroot}/usr/share/X11/xkb/rules/evdev %{buildroot}/usr/share/X11/xkb/rules/tizen_"%{?profile}"
+mv -f %{buildroot}/usr/share/X11/xkb/rules/evdev %{buildroot}/usr/share/X11/xkb/rules/evdev.org
+sed -i 's/evdev/tizen_%{?profile}/g' %{buildroot}/usr/share/X11/xkb/rules/tizen_"%{?profile}"
+ln -sf tizen_"%{?profile}" %{buildroot}/usr/share/X11/xkb/rules/evdev
+%endif
 
 %files -f %{name}.lang
 %manifest %{name}.manifest
