@@ -46,14 +46,9 @@ echo "" >> ${TEMP_SYMBOLS_FILE}
 echo "// Tizen common keys" >> ${TEMP_SYMBOLS_FILE}
 while read KEYNAME KERNEL_KEYCODE
 do
-	if [ "${TIZEN_WINDOW_SYSTEM}" = "x11" ]
-	then
-		KERNEL_KEYCODE=$(echo $KERNEL_KEYCODE $PLATFORM_BASE_KEYCODE | awk '{print $1 + $2}')
-		KEYCODE="${KERNEL_KEYCODE}"
-		echo "key <I$KEYCODE>   {     [ ${KEYNAME}     ]     };" >> ${TEMP_SYMBOLS_FILE}
-	else
-		echo "key <"${KEYNAME#XF86}">   {     [ "${KEYNAME}"     ]     };" >> ${TEMP_SYMBOLS_FILE}
-	fi
+	KERNEL_KEYCODE=$(echo $KERNEL_KEYCODE $PLATFORM_BASE_KEYCODE | awk '{print $1 + $2}')
+	KEYCODE="${KERNEL_KEYCODE}"
+	echo "key <I$KEYCODE>   {     [ ${KEYNAME}     ]     };" >> ${TEMP_SYMBOLS_FILE}
 done < ${KEYMAP_FILE_PATH}
 echo "};" >> ${TEMP_SYMBOLS_FILE}
 
