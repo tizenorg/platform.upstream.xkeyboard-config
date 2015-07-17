@@ -44,8 +44,9 @@ done < ${SYMBOLS_PATH}
 
 echo "" >> ${TEMP_SYMBOLS_FILE}
 echo "// Tizen common keys" >> ${TEMP_SYMBOLS_FILE}
-while read KEYNAME KERNEL_KEYCODE
+while read KEYNAME KERNEL_KEYCODE KEYBOARD_KEY
 do
+	[ "$KEYBOARD_KEY" = "keyboard"  ] && continue
 	KERNEL_KEYCODE=$(echo $KERNEL_KEYCODE $PLATFORM_BASE_KEYCODE | awk '{print $1 + $2}')
 	KEYCODE="${KERNEL_KEYCODE}"
 	echo "key <I$KEYCODE>   {     [ ${KEYNAME}     ]     };" >> ${TEMP_SYMBOLS_FILE}
