@@ -1,7 +1,7 @@
 %bcond_with x
 
 Name:           xkeyboard-config
-Version:        2.13
+Version:        2.13.1
 Release:        0
 License:        GPL-2.0+ and LGPL-2.1+ and MIT
 Summary:        The X Keyboard Extension
