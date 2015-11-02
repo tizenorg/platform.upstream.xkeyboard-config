@@ -1,0 +1,91 @@
+XF86AudioRaiseVolume 115
+XF86AudioLowerVolume 114
+XF86PowerOff 116
+XF86Menu 139
+XF86Home 169
+XF86Back 158
+XF86Camera_Full 212
+XF86Search 217
+XF86AudioPlay 200
+XF86AudioPlay 207 keyboard
+XF86AudioPause 201
+XF86AudioStop 166
+XF86AudioStop 128 keyboard
+XF86AudioNext 163
+XF86AudioPrev 165
+XF86AudioRewind 168
+XF86AudioForward 208
+XF86AudioMedia 226
+XF86AudioPlayPause 164
+XF86AudioMute 113
+XF86AudioRecord 167
+Cancel 223 keyboard
+XF86SoftKBD 148
+XF86QuickPanel 183
+XF86TaskPane 184
+XF86TaskPane 154 keyboard
+XF86HomePage 172
+XF86WWW 150
+XF86Mail 155
+XF86Mail 215 keyboard
+XF86ScreenSaver 152
+XF86MonBrightnessDown 224
+XF86MonBrightnessUp 225
+XF86Voice 149
+Hangul 122 keyboard
+XF86Apps 204
+XF86Call 218
+XF86Game 220
+XF86VoiceWakeUp_LPSD 202
+XF86VoiceWakeUp 203
+XF86TV 189
+XF86Display 227
+XF86RCConfig 192
+XF86RCMode 185
+XF86SoftRC 140
+1 2 keyboard
+2 3 keyboard
+3 4 keyboard
+4 5 keyboard
+5 6 keyboard
+6 7 keyboard
+7 8 keyboard
+8 9 keyboard
+9 10 keyboard
+0 11 keyboard
+minus 12 keyboard
+XF86LowerChannel 109
+XF86RaiseChannel 104
+XF86ChannelList 60
+XF86PreviousChannel 412
+XF86SysMenu 438
+XF86SimpleMenu 191
+XF86History 156
+XF86Favorites 190
+Up 103 keyboard
+Down 108 keyboard
+Left 105 keyboard
+Right 106 keyboard
+Return 28 keyboard
+XF86Close 174
+XF86Close 206 keyboard
+XF86Info 61
+XF86Red 62
+XF86Green 63
+XF86Yellow 64
+XF86Blue 65
+XF86ProgInfo 67
+XF86PictureMode 68
+XF86PictureSize 88
+XF86PIP 66
+XF86Guide 130
+XF86AudioMode 187
+XF86Subtitle 186
+XF863D 188
+Return 352
+XF86Home 354
+XF86TV 377
+XF86RaiseChannel 402
+XF86LowerChannel 403
+XF86AudioPrev 405
+XF86AudioNext 407

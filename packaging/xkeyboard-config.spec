@@ -24,10 +24,6 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 Requires(pre):  /usr/bin/ln
 Requires(pre):  /usr/bin/rm
-%if "%{?profile}" == "common"
-%else
-BuildRequires:  e-tizen-data
-%endif
 
 %description
 The X Keyboard Extension essentially replaces the core protocol
@@ -37,18 +33,30 @@ and to more closely track the logical and physical state of the
 keyboard. It also includes a number of keyboard controls designed to
 make keyboards more accessible to people with physical impairments.
 
+
+%if "%{?profile}" == "common"
+%else
+%package -n xkb-data
+Summary:    Xkb configuration data
+Group:      System/Utilities
+
+%description -n xkb-data
+%{summary}
+%endif
+
 %prep
 %setup -q
 cp %{SOURCE1001} .
 export TIZEN_PROFILE="%{?profile}"
 %if "%{?profile}" == "common"
 %else
-
 %if %{with x}
 export TIZEN_WINDOW_SYSTEM="x11"
 %else
 export TIZEN_WINDOW_SYSTEM="wayland"
 %endif
+
+cp keylayout/tizen_key_layout_"%{?profile}".txt tizen_key_layout.txt
 
 ./make_keycodes.sh
 ./make_symbols.sh
@@ -79,6 +87,9 @@ cp -af %{buildroot}/usr/share/X11/xkb/rules/evdev %{buildroot}/usr/share/X11/xkb
 mv -f %{buildroot}/usr/share/X11/xkb/rules/evdev %{buildroot}/usr/share/X11/xkb/rules/evdev.org
 sed -i 's/evdev/tizen_%{?profile}/g' %{buildroot}/usr/share/X11/xkb/rules/tizen_"%{?profile}"
 ln -sf tizen_"%{?profile}" %{buildroot}/usr/share/X11/xkb/rules/evdev
+
+%__mkdir_p %{buildroot}/usr/share/X11/xkb
+%__cp -f tizen_key_layout.txt %{buildroot}/usr/share/X11/xkb/tizen_key_layout.txt
 %endif
 
 %files -f %{name}.lang
@@ -89,3 +100,12 @@ ln -sf tizen_"%{?profile}" %{buildroot}/usr/share/X11/xkb/rules/evdev
 %dir %{_localstatedir}/lib/xkb/compiled
 %{_datadir}/X11/xkb/
 %{_datadir}/pkgconfig/*.pc
+%if "%{?profile}" == "common"
+%else
+
+%files -n xkb-data
+%manifest %{name}.manifest
+%license COPYING
+%{_datadir}/X11/xkb/tizen_key_layout.txt
+
+%endif
