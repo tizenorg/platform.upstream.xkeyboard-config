@@ -26,7 +26,7 @@ Requires(pre):  /usr/bin/ln
 Requires(pre):  /usr/bin/rm
 %if "%{?profile}" == "common"
 %else
-BuildRequires:  e-tizen-data
+BuildRequires:  xkb-tizen-data
 %endif
 
 %description
