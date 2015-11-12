@@ -19,7 +19,7 @@ AC_ARG_WITH( tizen_profile,
              tizen_profile="$withval",
              tizen_profile="common" )
 
-AC_CHECK_FILE(tizen_key_layout.txt, [key_layout_exist=yes], [key_layout_exist=no])
+AC_CHECK_FILE(/usr/share/X11/xkb/tizen_key_layout.txt, [key_layout_exist=yes], [key_layout_exist=no])
 AM_CONDITIONAL(KEY_LAYOUT_EXIST, [test "x$key_layout_exist" = xyes])
 
 AC_ARG_WITH( xkb_base,
