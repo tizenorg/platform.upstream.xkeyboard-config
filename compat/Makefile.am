@@ -3,10 +3,10 @@ compatdir = $(xkb_base)/compat
 compat_DATA = \
 accessx basic caps complete \
 iso9995 \
-japan ledcaps \
+ledcaps \
 lednum ledscroll level5 \
 misc mousekeys \
-olpc pc pc98 xfree86 \
-xtest README
+xfree86 \
+README
 
 EXTRA_DIST = $(compat_DATA)

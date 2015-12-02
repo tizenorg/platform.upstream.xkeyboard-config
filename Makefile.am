@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = compat geometry keycodes po rules symbols types docs man
+SUBDIRS = compat keycodes po rules symbols types docs man
 
 pkgconfigdir = $(datadir)/pkgconfig
 pkgconfig_DATA = xkeyboard-config.pc

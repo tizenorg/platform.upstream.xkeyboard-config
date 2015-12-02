@@ -90,27 +90,11 @@ AC_SUBST(xkb_rules_symlink)
 AC_OUTPUT([ po/Makefile.in
 Makefile
 compat/Makefile
-geometry/Makefile
-geometry/digital_vndr/Makefile
-geometry/sgi_vndr/Makefile
 keycodes/Makefile
-keycodes/digital_vndr/Makefile
-keycodes/sgi_vndr/Makefile
 rules/Makefile
 rules/bin/Makefile
 rules/compat/Makefile
 symbols/Makefile
-symbols/digital_vndr/Makefile
-symbols/fujitsu_vndr/Makefile
-symbols/hp_vndr/Makefile
-symbols/macintosh_vndr/Makefile
-symbols/nec_vndr/Makefile
-symbols/nokia_vndr/Makefile
-symbols/sgi_vndr/Makefile
-symbols/sharp_vndr/Makefile
-symbols/sony_vndr/Makefile
-symbols/sun_vndr/Makefile
-symbols/xfree68_vndr/Makefile
 types/Makefile
 xkeyboard-config.pc
 docs/Makefile
