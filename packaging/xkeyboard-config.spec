@@ -1,4 +1,5 @@
 %bcond_with x
+%define _unpackaged_files_terminate_build 0
 
 Name:           xkeyboard-config
 Version:        2.13
@@ -87,5 +88,4 @@ ln -sf tizen_"%{?profile}" %{buildroot}/usr/share/X11/xkb/rules/evdev
 %doc AUTHORS README docs/HOWTO.* docs/README.*
 %license COPYING
 %dir %{_localstatedir}/lib/xkb/compiled
-%{_datadir}/X11/xkb/
 %{_datadir}/pkgconfig/*.pc
