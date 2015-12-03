@@ -1,6 +1,7 @@
 #!/bin/sh
 
 KEYMAP_FILE_PATH="/usr/share/X11/xkb/tizen_key_layout.txt"
+LIST_LANG_FILE="./xkeyboard-config.lang"
 KEYCODES_PATH="./keycodes/"
 DEFAULT_KEYCODES_NAME="evdev"
 NEW_KEYCODES_NAME="tizen_"${TIZEN_PROFILE}
@@ -35,3 +36,5 @@ echo ${FULL_KEY_LIST}
 sed -i "s/${CHANGE_STRING}/${FULL_KEY_LIST}/g" ${KEYCODES_PATH}${NEW_KEYCODES_NAME}
 
 sed -i "s/${DEFAULT_KEYCODES_NAME}/${NEW_KEYCODES_NAME}/g" ${KEYCODES_PATH}${NEW_KEYCODES_NAME}
+
+sed -i "s/{tizen_profile}/${TIZEN_PROFILE}/g" ${LIST_LANG_FILE}
