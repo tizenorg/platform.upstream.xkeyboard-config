@@ -79,6 +79,8 @@ cp -af %{buildroot}/usr/share/X11/xkb/rules/evdev %{buildroot}/usr/share/X11/xkb
 mv -f %{buildroot}/usr/share/X11/xkb/rules/evdev %{buildroot}/usr/share/X11/xkb/rules/evdev.org
 sed -i 's/evdev/tizen_%{?profile}/g' %{buildroot}/usr/share/X11/xkb/rules/tizen_"%{?profile}"
 ln -sf tizen_"%{?profile}" %{buildroot}/usr/share/X11/xkb/rules/evdev
+export LOCAL_KEYMAP_PATH=%{buildroot}/usr/share/X11/xkb
+./remove_unused_files.sh
 %endif
 
 %files -f %{name}.lang
