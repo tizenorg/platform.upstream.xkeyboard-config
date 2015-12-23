@@ -3,7 +3,7 @@
 Name:           xkeyboard-config
 Version:        2.13
 Release:        0
-License:        GPL-2.0+ and LGPL-2.1+ and MIT
+License:        MIT
 Summary:        The X Keyboard Extension
 Url:            http://www.freedesktop.org/Software/XKeyboardConfig
 Group:          System/Utilities
