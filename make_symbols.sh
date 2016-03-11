@@ -1,6 +1,10 @@
 #!/bin/sh
 
-KEYMAP_FILE_PATH="/usr/share/X11/xkb/tizen_key_layout.txt"
+if [ "$TZ_SYS_RO_SHARE" = "" ]; then
+        TZ_SYS_RO_SHARE="/usr/share"
+fi
+
+KEYMAP_FILE_PATH="${TZ_SYS_RO_SHARE}/X11/xkb/tizen_key_layout.txt"
 SYMBOLS_PATH="./symbols/inet"
 DEFAULT_SYMBOLS_NAME="evdev"
 DEFAULT_SYMBOLS_DEFINE="Evdev"

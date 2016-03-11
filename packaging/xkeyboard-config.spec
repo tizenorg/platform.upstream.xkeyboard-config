@@ -29,6 +29,9 @@ Requires(pre):  /usr/bin/rm
 BuildRequires:  xkb-tizen-data
 %endif
 
+%global TZ_SYS_RO_SHARE  %{?TZ_SYS_RO_SHARE:%TZ_SYS_RO_SHARE}%{!?TZ_SYS_RO_SHARE:/usr/share}
+%global TZ_SYS_VAR  %{?TZ_SYS_VAR:%TZ_SYS_VAR}%{!?TZ_SYS_VAR:/opt/var}
+
 %description
 The X Keyboard Extension essentially replaces the core protocol
 definition of keyboard. The extension makes possible to clearly and
@@ -50,13 +53,14 @@ export TIZEN_WINDOW_SYSTEM="x11"
 export TIZEN_WINDOW_SYSTEM="wayland"
 %endif
 
+export TZ_SYS_RO_SHARE="%{TZ_SYS_RO_SHARE}"
 ./make_keycodes.sh
 ./make_symbols.sh
 %endif
 
 %build
 %autogen --with-xkb-rules-symlink=xfree86,xorg \
-            --with-xkb-base=/usr/share/X11/xkb \
+            --with-xkb-base=%{TZ_SYS_RO_SHARE}/X11/xkb \
             --enable-compat_rules \
             --disable-runtime-deps \
             --disable-xkbcomp-symlink \
@@ -70,24 +74,28 @@ mkdir -p %{buildroot}%{_localstatedir}/lib/xkb
 ln -snf %{_bindir}/xkbcomp %{buildroot}%{_datadir}/X11/xkb/xkbcomp
 # Bug 335553
 mkdir -p %{buildroot}%{_localstatedir}/lib/xkb/compiled/
-ln -snf /var/lib/xkb/compiled/ %{buildroot}%{_datadir}/X11/xkb/compiled
+ln -snf %{TZ_SYS_VAR}/lib/xkb/compiled/ %{buildroot}%{_datadir}/X11/xkb/compiled
 %find_lang %{name}
 %fdupes -s %{buildroot}%{_datadir}/X11/xkb
 %if "%{?profile}" == "common"
 %else
-cp -af %{buildroot}/usr/share/X11/xkb/rules/evdev %{buildroot}/usr/share/X11/xkb/rules/tizen_"%{?profile}"
-mv -f %{buildroot}/usr/share/X11/xkb/rules/evdev %{buildroot}/usr/share/X11/xkb/rules/evdev.org
-sed -i 's/evdev/tizen_%{?profile}/g' %{buildroot}/usr/share/X11/xkb/rules/tizen_"%{?profile}"
-ln -sf tizen_"%{?profile}" %{buildroot}/usr/share/X11/xkb/rules/evdev
-export LOCAL_KEYMAP_PATH=%{buildroot}/usr/share/X11/xkb
+cp -af %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/tizen_"%{?profile}"
+mv -f %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev.org
+sed -i 's/evdev/tizen_%{?profile}/g' %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/tizen_"%{?profile}"
+ln -sf tizen_"%{?profile}" %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev
+export LOCAL_KEYMAP_PATH=%{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb
 ./remove_unused_files.sh
+
+#for license notification
+mkdir -p %{buildroot}/%{TZ_SYS_RO_SHARE}/license
+cp -a %{_builddir}/%{buildsubdir}/COPYING %{buildroot}/%{TZ_SYS_RO_SHARE}/license/%{name}
 %endif
 
 %files -f %{name}.lang
 %manifest %{name}.manifest
 %defattr(-,root,root)
 %doc AUTHORS README docs/HOWTO.* docs/README.*
-%license COPYING
 %dir %{_localstatedir}/lib/xkb/compiled
+%{TZ_SYS_RO_SHARE}/license/%{name}
 %{_datadir}/X11/xkb/
 %{_datadir}/pkgconfig/*.pc
