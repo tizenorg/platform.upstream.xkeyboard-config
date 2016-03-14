@@ -17,6 +17,14 @@ Branch: refs/heads/tizen
 Code-Review+2: SooChan Lim <sc1.lim@samsung.com>
 Verified+1: SooChan Lim <sc1.lim@samsung.com>
 Submitted-by: SooChan Lim <sc1.lim@samsung.com>
+Submitted-at: Thu, 10 Mar 2016 23:35:48 -0700
+Reviewed-on: https://review.tizen.org/gerrit/61896
+Project: platform/upstream/xkeyboard-config
+Branch: refs/heads/tizen
+
+Code-Review+2: SooChan Lim <sc1.lim@samsung.com>
+Verified+1: SooChan Lim <sc1.lim@samsung.com>
+Submitted-by: SooChan Lim <sc1.lim@samsung.com>
 Submitted-at: Thu, 10 Mar 2016 22:35:48 -0800
 Reviewed-on: https://review.tizen.org/gerrit/61896
 Project: platform/upstream/xkeyboard-config
