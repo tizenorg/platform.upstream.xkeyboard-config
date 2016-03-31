@@ -28,6 +28,7 @@ Requires(pre):  /usr/bin/rm
 %else
 BuildRequires:  xkb-tizen-data
 %endif
+BuildRequires:  pkgconfig(xkbcommon)
 
 %global TZ_SYS_RO_SHARE  %{?TZ_SYS_RO_SHARE:%TZ_SYS_RO_SHARE}%{!?TZ_SYS_RO_SHARE:/usr/share}
 %global TZ_SYS_VAR  %{?TZ_SYS_VAR:%TZ_SYS_VAR}%{!?TZ_SYS_VAR:/opt/var}
@@ -85,6 +86,11 @@ sed -i 's/evdev/tizen_%{?profile}/g' %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rul
 ln -sf tizen_"%{?profile}" %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev
 export LOCAL_KEYMAP_PATH=%{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb
 ./remove_unused_files.sh
+export RULE_FILE_PATH=%{TZ_SYS_RO_SHARE}/X11/xkb/xkb.rule
+%{buildroot}%{_bindir}/cache
+rm %{buildroot}%{_bindir}/cache
+mkdir -p %{buildroot}/%{TZ_SYS_VAR}/lib/xkb/
+cp *.xkb %{buildroot}/%{TZ_SYS_VAR}/lib/xkb/
 
 #for license notification
 mkdir -p %{buildroot}/%{TZ_SYS_RO_SHARE}/license
@@ -99,3 +105,4 @@ cp -a %{_builddir}/%{buildsubdir}/COPYING %{buildroot}/%{TZ_SYS_RO_SHARE}/licens
 %{TZ_SYS_RO_SHARE}/license/%{name}
 %{_datadir}/X11/xkb/
 %{_datadir}/pkgconfig/*.pc
+%{TZ_SYS_VAR}/lib/xkb/*.xkb

@@ -22,6 +22,8 @@ AC_ARG_WITH( tizen_profile,
 AC_CHECK_FILE(/usr/share/X11/xkb/tizen_key_layout.txt, [key_layout_exist=yes], [key_layout_exist=no])
 AM_CONDITIONAL(KEY_LAYOUT_EXIST, [test "x$key_layout_exist" = xyes])
 
+PKG_CHECK_MODULES(XKBCOMMON, [xkbcommon])
+
 AC_ARG_WITH( xkb_base,
              [AS_HELP_STRING([--with-xkb-base=DIR],[XKB base path @<:@DATADIR/X11/xkb@:>@])],
              xkb_base="$withval",
@@ -115,6 +117,7 @@ types/Makefile
 xkeyboard-config.pc
 docs/Makefile
 man/Makefile
+cache/Makefile
 ])
 
 echo '***********************************************************'
