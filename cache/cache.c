@@ -21,6 +21,12 @@ void parseArgs(int argc, char **argv, struct xkb_rule_names *names)
     {
         rule_path = getenv("RULE_FILE_PATH");
 
+	if (!rule_path)
+        {
+            printf("Failed to get RULE_FILE_PATH !\n");
+            return;
+        }
+
         printf("Cache file rule from %s file\n", rule_path);
 
         file = fopen(rule_path, "r");
@@ -138,9 +144,9 @@ int main(int argc, char **argv)
     struct xkb_context *ctx;
     struct xkb_keymap *map;
     struct xkb_rule_names names;
-    char *keymap_path;
-    char *keymap_string;
-    char *cache_path;
+    char *keymap_path = NULL;
+    char *keymap_string = NULL;
+    char *cache_path = NULL;
     FILE *file = NULL;
     int len_cache_path;
     
@@ -156,13 +162,20 @@ int main(int argc, char **argv)
        return 0;
     }
 
-    if (!keymap_path) keymap_path = getenv("LOCAL_KEYMAP_PATH");
+    keymap_path = getenv("LOCAL_KEYMAP_PATH");
+
+    if (!keymap_path)
+    {
+        printf("Failed to get LOCAL_KEYMAP_PATH !\n");
+        return 0;
+    }
 
     xkb_context_include_path_append(ctx, keymap_path);
 
     map = xkb_map_new_from_names(ctx, &names, 0);
 
     keymap_string = xkb_map_get_as_string(map);
+
     if (!keymap_string) {
         printf("Failed convert keymap to string\n");
         return 0;
