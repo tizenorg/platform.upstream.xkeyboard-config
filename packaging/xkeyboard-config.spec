@@ -24,10 +24,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 Requires(pre):  /usr/bin/ln
 Requires(pre):  /usr/bin/rm
-%if "%{?profile}" == "common"
-%else
 BuildRequires:  xkb-tizen-data
-%endif
 BuildRequires:  pkgconfig(xkbcommon)
 
 %global TZ_SYS_RO_SHARE  %{?TZ_SYS_RO_SHARE:%TZ_SYS_RO_SHARE}%{!?TZ_SYS_RO_SHARE:/usr/share}
@@ -45,8 +42,6 @@ make keyboards more accessible to people with physical impairments.
 %setup -q
 cp %{SOURCE1001} .
 export TIZEN_PROFILE="%{?profile}"
-%if "%{?profile}" == "common"
-%else
 
 %if %{with x}
 export TIZEN_WINDOW_SYSTEM="x11"
@@ -57,7 +52,6 @@ export TIZEN_WINDOW_SYSTEM="wayland"
 export TZ_SYS_RO_SHARE="%{TZ_SYS_RO_SHARE}"
 ./make_keycodes.sh
 ./make_symbols.sh
-%endif
 
 %build
 %autogen --with-xkb-rules-symlink=xfree86,xorg \
@@ -78,8 +72,7 @@ mkdir -p %{buildroot}%{_localstatedir}/lib/xkb/compiled/
 ln -snf %{TZ_SYS_VAR}/lib/xkb/compiled/ %{buildroot}%{_datadir}/X11/xkb/compiled
 %find_lang %{name}
 %fdupes -s %{buildroot}%{_datadir}/X11/xkb
-%if "%{?profile}" == "common"
-%else
+
 cp -af %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/tizen_"%{?profile}"
 mv -f %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev.org
 sed -i 's/evdev/tizen_%{?profile}/g' %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/tizen_"%{?profile}"
@@ -95,7 +88,6 @@ cp *.xkb %{buildroot}/%{TZ_SYS_VAR}/lib/xkb/
 #for license notification
 mkdir -p %{buildroot}/%{TZ_SYS_RO_SHARE}/license
 cp -a %{_builddir}/%{buildsubdir}/COPYING %{buildroot}/%{TZ_SYS_RO_SHARE}/license/%{name}
-%endif
 
 %files -f %{name}.lang
 %manifest %{name}.manifest
