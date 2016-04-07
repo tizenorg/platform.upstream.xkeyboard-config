@@ -1,5 +1,6 @@
 #include <xkbcommon/xkbcommon.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define DFLT_RULES "evdev"
