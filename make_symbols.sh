@@ -48,12 +48,16 @@ done < ${SYMBOLS_PATH}
 
 echo "" >> ${TEMP_SYMBOLS_FILE}
 echo "// Tizen common keys" >> ${TEMP_SYMBOLS_FILE}
-while read KEYNAME KERNEL_KEYCODE KEYBOARD_OPT
+while read KEYNAME KERNEL_KEYCODE OPTS
 do
-	[[ $KEYBOARD_OPT == *"keyboard"* ]] && continue
-	KERNEL_KEYCODE=$(echo $KERNEL_KEYCODE $PLATFORM_BASE_KEYCODE | awk '{print $1 + $2}')
+	[[ $OPTS == *"keyboard"* ]] && continue
+
+	EXTRA_OPTS=", repeat=False"
+	[[ $OPTS == *"repeat"* ]] && EXTRA_OPTS=", repeat=True"
+
+	KERNEL_KEYCODE=$(echo $(($KERNEL_KEYCODE+$PLATFORM_BASE_KEYCODE)))
 	KEYCODE="${KERNEL_KEYCODE}"
-	echo "key <I$KEYCODE>   {     [ ${KEYNAME}     ]     };" >> ${TEMP_SYMBOLS_FILE}
+	echo "key <I$KEYCODE>   {     [ ${KEYNAME}     ] ${EXTRA_OPTS}    };" >> ${TEMP_SYMBOLS_FILE}
 done < ${KEYMAP_FILE_PATH}
 echo "};" >> ${TEMP_SYMBOLS_FILE}
 
