@@ -2,20 +2,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define DFLT_RULES "evdev"
 #define DFLT_MODEL "pc105"
 #define DFLT_LAYOUT "us"
 
+#define KEYMAP_LAYOUT "/usr/share/X11/xkb/tizen_key_layout.txt"
+
 #define STRLEN(s) (s ? strlen(s) : 0)
 #define STR(s) (s ? s : "")
 
+void parseKeymapFile(struct xkb_keymap *map)
+{
+    FILE *file;
+    int res, keycode;
+    char *tmp, *ret, buf[1024] = {0, };
+    file = fopen(KEYMAP_LAYOUT, "r");
+    if (!file) return;
+
+    while (!feof(file))
+    {
+        ret = fgets(buf, 1024, file);
+
+        if (!ret) continue;
+
+        if ((strstr(buf, "keyboard") > 0) && (strstr(buf, "repeat") > 0))
+        {
+           tmp = strtok(buf, " ");
+           tmp = strtok(NULL, " ");
+           if (!tmp) continue;
+           keycode = atoi(tmp) + 8;
+
+           res = xkb_keymap_key_set_repeats(map, keycode, 0);
+           printf("Set key(%d) to disable repeat: %d\n", keycode, res);
+        }
+    }
+
+    fclose(file);
+
+    return;
+}
+
 void parseArgs(int argc, char **argv, struct xkb_rule_names *names)
 {
-    int i;
+    int i, res;
     char *tmp, *rule_path;
     FILE *file;
-    int len_rule_path;
     char buf[1024] = {0, };
 
     if (argc < 2)
@@ -35,7 +68,8 @@ void parseArgs(int argc, char **argv, struct xkb_rule_names *names)
 
         while (!feof(file))
         {
-            fscanf(file, "%s", buf);
+            res = fscanf(file, "%s", buf);
+            if (res < 0) break;
             if (strstr(buf, "rules") > 0)
             {
                 tmp = strtok(buf, "=");
@@ -175,6 +209,8 @@ int main(int argc, char **argv)
 
     map = xkb_map_new_from_names(ctx, &names, 0);
 
+    parseKeymapFile(map);
+
     keymap_string = xkb_map_get_as_string(map);
 
     if (!keymap_string) {
@@ -199,11 +235,11 @@ int main(int argc, char **argv)
         fclose(file);
     }
 
-    if (names.rules) free(names.rules);
-    if (names.model) free(names.model);
-    if (names.layout) free(names.layout);
-    if (names.variant) free(names.variant);
-    if (names.options) free(names.options);
+    if (names.rules) free((char *)names.rules);
+    if (names.model) free((char *)names.model);
+    if (names.layout) free((char *)names.layout);
+    if (names.variant) free((char *)names.variant);
+    if (names.options) free((char *)names.options);
     if (cache_path) free(cache_path);
     xkb_keymap_unref(map);
     xkb_context_unref(ctx);
