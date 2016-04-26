@@ -29,6 +29,7 @@ BuildRequires:  pkgconfig(xkbcommon)
 
 %global TZ_SYS_RO_SHARE  %{?TZ_SYS_RO_SHARE:%TZ_SYS_RO_SHARE}%{!?TZ_SYS_RO_SHARE:/usr/share}
 %global TZ_SYS_VAR  %{?TZ_SYS_VAR:%TZ_SYS_VAR}%{!?TZ_SYS_VAR:/opt/var}
+%global KEYMAP_FILE_PATH "${TZ_SYS_RO_SHARE}/X11/xkb/tizen_key_layout.txt"
 
 %description
 The X Keyboard Extension essentially replaces the core protocol
@@ -50,6 +51,7 @@ export TIZEN_WINDOW_SYSTEM="wayland"
 %endif
 
 export TZ_SYS_RO_SHARE="%{TZ_SYS_RO_SHARE}"
+export KEYMAP_FILE_PATH="%{KEYMAP_FILE_PATH}"
 ./make_keycodes.sh
 ./make_symbols.sh
 
@@ -80,6 +82,7 @@ ln -sf tizen_"%{?profile}" %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev
 export LOCAL_KEYMAP_PATH=%{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb
 ./remove_unused_files.sh
 export RULE_FILE_PATH=%{TZ_SYS_RO_SHARE}/X11/xkb/xkb.rule
+export KEYMAP_FILE_PATH="%{KEYMAP_FILE_PATH}"
 %ifarch aarch64 x86_64
 %else
 if [ -e %{buildroot}%{_bindir}/cache ]; then

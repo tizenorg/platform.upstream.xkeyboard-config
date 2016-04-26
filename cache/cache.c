@@ -8,8 +8,6 @@
 #define DFLT_MODEL "pc105"
 #define DFLT_LAYOUT "us"
 
-#define KEYMAP_LAYOUT "/usr/share/X11/xkb/tizen_key_layout.txt"
-
 #define STRLEN(s) (s ? strlen(s) : 0)
 #define STR(s) (s ? s : "")
 
@@ -17,8 +15,16 @@ void parseKeymapFile(struct xkb_keymap *map)
 {
     FILE *file;
     int res, keycode;
-    char *tmp, *ret, buf[1024] = {0, };
-    file = fopen(KEYMAP_LAYOUT, "r");
+    char *tmp, *ret, buf[1024] = {0, }, *keymap_path;
+
+    keymap_path = getenv("KEYMAP_FILE_PATH");
+    if (!keymap_path)
+    {
+        printf("There is no enviroment of keymap file path\n");
+        return;
+    }
+
+    file = fopen(keymap_path, "r");
     if (!file) return;
 
     while (!feof(file))
