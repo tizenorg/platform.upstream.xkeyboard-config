@@ -40,8 +40,8 @@ void parseKeymapFile(struct xkb_keymap *map)
            if (!tmp) continue;
            keycode = atoi(tmp) + 8;
 
-           res = xkb_keymap_key_set_repeats(map, keycode, 0);
-           printf("Set key(%d) to disable repeat: %d\n", keycode, res);
+           res = xkb_keymap_key_set_repeats(map, keycode, 1);
+           printf("Set key(%d) to enable repeat: %d\n", keycode, res);
         }
     }
 
@@ -190,7 +190,7 @@ int main(int argc, char **argv)
     char *cache_path = NULL;
     FILE *file = NULL;
     int len_cache_path;
-    
+
     memset(&names, 0, sizeof(names));
 
     parseArgs(argc, argv, &names);
