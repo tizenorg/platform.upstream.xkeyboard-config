@@ -33,15 +33,28 @@ void parseKeymapFile(struct xkb_keymap *map)
 
         if (!ret) continue;
 
-        if ((strstr(buf, "keyboard") > 0) && (strstr(buf, "repeat") > 0))
+        if (strstr(buf, "keyboard") > 0)
         {
-           tmp = strtok(buf, " ");
-           tmp = strtok(NULL, " ");
-           if (!tmp) continue;
-           keycode = atoi(tmp) + 8;
+            if (strstr(buf, "repeat") > 0)
+            {
+                tmp = strtok(buf, " ");
+                tmp = strtok(NULL, " ");
+                if (!tmp) continue;
+                keycode = atoi(tmp) + 8;
 
-           res = xkb_keymap_key_set_repeats(map, keycode, 1);
-           printf("Set key(%d) to enable repeat: %d\n", keycode, res);
+                res = xkb_keymap_key_set_repeats(map, keycode, 1);
+                printf("Set key(%d) to enable repeat: %d\n", keycode, res);
+            }
+            else
+            {
+                tmp = strtok(buf, " ");
+                tmp = strtok(NULL, " ");
+                if (!tmp) continue;
+                keycode = atoi(tmp) + 8;
+
+                res = xkb_keymap_key_set_repeats(map, keycode, 0);
+                printf("Set key(%d) to disable repeat: %d\n", keycode, res);
+            }
         }
     }
 
