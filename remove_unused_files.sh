@@ -57,7 +57,6 @@ rm -rf ${KEYMAP_PATH}/symbols/j*
 rm -rf ${KEYMAP_PATH}/symbols/ke
 rm -rf ${KEYMAP_PATH}/symbols/kg
 rm -rf ${KEYMAP_PATH}/symbols/kh
-rm -rf ${KEYMAP_PATH}/symbols/kpdl
 rm -rf ${KEYMAP_PATH}/symbols/kr
 rm -rf ${KEYMAP_PATH}/symbols/kz
 rm -rf ${KEYMAP_PATH}/symbols/l*
@@ -68,7 +67,6 @@ rm -rf ${KEYMAP_PATH}/symbols/ph
 rm -rf ${KEYMAP_PATH}/symbols/pk
 rm -rf ${KEYMAP_PATH}/symbols/pl
 rm -rf ${KEYMAP_PATH}/symbols/pt
-rm -rf ${KEYMAP_PATH}/symbols/r*
 rm -rf ${KEYMAP_PATH}/symbols/se
 rm -rf ${KEYMAP_PATH}/symbols/sgi_vndr
 rm -rf ${KEYMAP_PATH}/symbols/sharp_vndr
