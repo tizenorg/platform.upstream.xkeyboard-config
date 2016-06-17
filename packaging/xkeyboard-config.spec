@@ -80,10 +80,10 @@ mv -f %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev %{buildroot}/%{TZ_SYS_
 sed -i 's/evdev/tizen_%{?profile}/g' %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/tizen_"%{?profile}"
 ln -sf tizen_"%{?profile}" %{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb/rules/evdev
 export LOCAL_KEYMAP_PATH=%{buildroot}/%{TZ_SYS_RO_SHARE}/X11/xkb
-./remove_unused_files.sh
-
 export RULE_FILE_PATH=%{TZ_SYS_RO_SHARE}/X11/xkb/xkb.rule
 export KEYMAP_FILE_PATH="%{KEYMAP_FILE_PATH}"
+./remove_unused_files.sh
+
 %ifarch aarch64 x86_64
 %else
 if [ -e %{buildroot}%{_bindir}/cache ]; then
