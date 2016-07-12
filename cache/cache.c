@@ -15,7 +15,7 @@ void parseKeymapFile(struct xkb_keymap *map)
 {
     FILE *file;
     int res, keycode;
-    char *tmp, *ret, buf[1024] = {0, }, *keymap_path;
+    char *tmp, *ret, buf[1024] = {0, }, *keymap_path, *buf_ptr;;
 
     keymap_path = getenv("KEYMAP_FILE_PATH");
     if (!keymap_path)
@@ -37,8 +37,8 @@ void parseKeymapFile(struct xkb_keymap *map)
         {
             if (strstr(buf, "repeat") > 0)
             {
-                tmp = strtok(buf, " ");
-                tmp = strtok(NULL, " ");
+                tmp = strtok_r(buf, " ", &buf_ptr);
+                tmp = strtok_r(NULL, " ", &buf_ptr);
                 if (!tmp) continue;
                 keycode = atoi(tmp) + 8;
 
@@ -47,8 +47,8 @@ void parseKeymapFile(struct xkb_keymap *map)
             }
             else
             {
-                tmp = strtok(buf, " ");
-                tmp = strtok(NULL, " ");
+                tmp = strtok_r(buf, " ", &buf_ptr);
+                tmp = strtok_r(NULL, " ", &buf_ptr);
                 if (!tmp) continue;
                 keycode = atoi(tmp) + 8;
 
@@ -69,6 +69,7 @@ void parseArgs(int argc, char **argv, struct xkb_rule_names *names)
     char *tmp, *rule_path;
     FILE *file;
     char buf[1024] = {0, };
+    char *buf_ptr;
 
     if (argc < 2)
     {
@@ -87,36 +88,36 @@ void parseArgs(int argc, char **argv, struct xkb_rule_names *names)
 
         while (!feof(file))
         {
-            res = fscanf(file, "%s", buf);
+            res = fscanf(file, "%1023s", buf);
             if (res < 0) break;
             if (strstr(buf, "rules") > 0)
             {
-                tmp = strtok(buf, "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(buf, "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 if (tmp) names->rules= strdup(tmp);
             }
             else if (strstr(buf, "model") > 0)
             {
-                tmp = strtok(buf, "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(buf, "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 if (tmp) names->model= strdup(tmp);
             }
             else if (strstr(buf, "layout") > 0)
             {
-                tmp = strtok(buf, "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(buf, "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 if (tmp) names->layout= strdup(tmp);
             }
             else if (strstr(buf, "variant") > 0)
             {
-                tmp = strtok(buf, "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(buf, "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 if (tmp) names->variant= strdup(tmp);
             }
             else if (strstr(buf, "options") > 0)
             {
-                tmp = strtok(buf, "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(buf, "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 if (tmp) names->options= strdup(tmp);
             }
         }
@@ -131,32 +132,32 @@ void parseArgs(int argc, char **argv, struct xkb_rule_names *names)
 
             if (strstr(argv[i], "-rules") > 0)
             {
-                tmp = strtok(argv[i], "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(argv[i], "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 names->rules= strdup(tmp);
             }
             else if (strstr(argv[i], "-model") > 0)
             {
-                tmp = strtok(argv[i], "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(argv[i], "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 names->model = strdup(tmp);
             }
             else if (strstr(argv[i], "-layout") > 0)
             {
-                tmp = strtok(argv[i], "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(argv[i], "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 names->layout = strdup(tmp);
             }
             else if (strstr(argv[i], "-variant") > 0)
             {
-                tmp = strtok(argv[i], "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(argv[i], "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 names->variant = strdup(tmp);
             }
             else if (strstr(argv[i], "-options") > 0)
             {
-                tmp = strtok(argv[i], "=");
-                tmp = strtok(NULL, "=");
+                tmp = strtok_r(argv[i], "=", &buf_ptr);
+                tmp = strtok_r(NULL, "=", &buf_ptr);
                 names->options = strdup(tmp);
             }
         }
@@ -239,19 +240,22 @@ int main(int argc, char **argv)
 
     len_cache_path = STRLEN(names.rules) + STRLEN(names.model) + STRLEN(names.layout) + STRLEN(names.variant) + STRLEN(names.options) + sizeof("xkb") + 5;
     cache_path = (char *)calloc(1, len_cache_path);
-    snprintf(cache_path, len_cache_path, "%s-%s-%s-%s-%s.xkb", STR(names.rules), STR(names.model), STR(names.layout), STR(names.variant), STR(names.options));
+    if (cache_path)
+    {
+        snprintf(cache_path, len_cache_path, "%s-%s-%s-%s-%s.xkb", STR(names.rules), STR(names.model), STR(names.layout), STR(names.variant), STR(names.options));
 
-    file = fopen(cache_path, "w");
-    if (fputs(keymap_string, file) < 0)
-    {
-        printf("Failed  to write keymap file: %s\n", cache_path);
-        fclose(file);
-        unlink(cache_path);
-    }
-  else
-    {
-        printf("Success to make keymap file: %s\n", cache_path);
-        fclose(file);
+        file = fopen(cache_path, "w");
+        if (fputs(keymap_string, file) < 0) {
+            printf("Failed  to write keymap file: %s\n", cache_path);
+            fclose(file);
+            unlink(cache_path);
+        }
+        else {
+            printf("Success to make keymap file: %s\n", cache_path);
+            fclose(file);
+        }
+
+        free(cache_path);
     }
 
     if (names.rules) free((char *)names.rules);
@@ -259,7 +263,6 @@ int main(int argc, char **argv)
     if (names.layout) free((char *)names.layout);
     if (names.variant) free((char *)names.variant);
     if (names.options) free((char *)names.options);
-    if (cache_path) free(cache_path);
     xkb_keymap_unref(map);
     xkb_context_unref(ctx);
 
